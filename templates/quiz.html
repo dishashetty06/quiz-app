@@ -1,0 +1,80 @@
+ {% extends 'base.html' %}
+
+{% block title %}Quiz in Progress - MCQ Quiz App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white d-flex justify-content-between">
+                <h3>Quiz in Progress</h3>
+                <div class="timer" id="timer">Time: <span id="countdown">{{ remaining_seconds }}</span></div>
+            </div>
+            <div class="card-body">
+                <form id="quizForm" method="POST" action="{{ url_for('submit_quiz') }}">
+                    {% for question in questions %}
+                    <div class="card question-card">
+                        <div class="card-header">
+                            Question {{ loop.index }}: {{ question.question }}
+                        </div>
+                        <div class="card-body">
+                            {% for option in question.shuffled_options %}
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="{{ question.id }}" id="q{{ question.id }}_opt{{ loop.index }}" value="{{ option }}">
+                                <label class="form-check-label" for="q{{ question.id }}_opt{{ loop.index }}">
+                                    {{ option }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="submit" class="btn btn-success btn-lg">Submit Quiz</button>
+                        <span class="text-muted">Time remaining: <span id="time-display">00:00</span></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Timer functionality
+    let remainingSeconds = {{ remaining_seconds }};
+    const countdownElement = document.getElementById('countdown');
+    const timeDisplayElement = document.getElementById('time-display');
+    const quizForm = document.getElementById('quizForm');
+    
+    function updateTimer() {
+        const minutes = Math.floor(remainingSeconds / 60);
+        const seconds = remainingSeconds % 60;
+        
+        // Format time display
+        timeDisplayElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        // Update countdown
+        countdownElement.textContent = remainingSeconds;
+        
+        if (remainingSeconds <= 0) {
+            clearInterval(timerInterval);
+            quizForm.submit();  // Auto-submit when time is up
+        } else {
+            remainingSeconds--;
+        }
+        
+        // Change color when less than 30 seconds remain
+        if (remainingSeconds < 30) {
+            timeDisplayElement.classList.add('text-danger');
+            countdownElement.classList.add('text-danger');
+        }
+    }
+    
+    // Start the timer
+    updateTimer();
+    const timerInterval = setInterval(updateTimer, 1000);
+</script>
+{% endblock %}

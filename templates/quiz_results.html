@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Quiz Results - MCQ Quiz App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3>Quiz Results</h3>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <h1 class="display-1 {{ 'text-success' if result.score >= 70 else 'text-warning' if result.score >= 40 else 'text-danger' }}">
+                        {{ result.score|round(2) }}%
+                    </h1>
+                    <p class="lead">
+                        You answered {{ result.correct_answers }} out of {{ result.total_questions }} questions correctly.
+                    </p>
+                    <div class="progress mb-3" style="height: 30px;">
+                        <div class="progress-bar {{ 'bg-success' if result.score >= 70 else 'bg-warning' if result.score >= 40 else 'bg-danger' }}" 
+                             role="progressbar" 
+                             style="width: {{ result.score }}%;" 
+                             aria-valuenow="{{ result.score }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                            {{ result.score|round(2) }}%
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-center my-4">
+                    <a href="{{ url_for('start_quiz') }}" class="btn btn-primary mx-2">Take Another Quiz</a>
+                    <a href="{{ url_for('analytics') }}" class="btn btn-info mx-2">View Analytics</a>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mx-2">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+body {
+    padding-top: 56px;
+}
+
+.card {
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+.quiz-card {
+    transition: transform 0.2s;
+}
+
+.quiz-card:hover {
+    transform: translateY(-5px);
+}
+
+.topic-badge {
+    font-size: 0.8rem;
+}
+
+.difficulty-easy {
+    color: #28a745;
+}
+
+.difficulty-medium {
+    color: #ffc107;
+}
+
+.difficulty-hard {
+    color: #dc3545;
+}

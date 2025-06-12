@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Start Quiz - MCQ Quiz App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Start Quiz</div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('start_quiz') }}">
+                    <div class="mb-3">
+                        <label for="quiz_duration" class="form-label">Quiz Duration (minutes)</label>
+                        <select class="form-select" id="quiz_duration" name="quiz_duration" required>
+                            <option value="1">1 minute</option>
+                            <option value="2">2 minutes</option>
+                            <option value="5" selected>5 minutes</option>
+                            <option value="10">10 minutes</option>
+                            <option value="15">15 minutes</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="num_questions" class="form-label">Number of Questions</label>
+                        <select class="form-select" id="num_questions" name="num_questions" required>
+                            <option value="3">3 questions</option>
+                            <option value="5" selected>5 questions</option>
+                            <option value="10">10 questions</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Start Quiz</button>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

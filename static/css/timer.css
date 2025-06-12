@@ -1,0 +1,164 @@
+.timer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.timer-display {
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6;
+    min-width: 120px;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.timer-display.warning {
+    color: #ff9800;
+    background-color: #fff3e0;
+    border-color: #ff9800;
+    animation: pulse 1s infinite;
+}
+
+.timer-display.critical {
+    color: #f44336;
+    background-color: #ffebee;
+    border-color: #f44336;
+    animation: pulse 0.5s infinite;
+}
+
+.timer-progress {
+    width: 100%;
+    height: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    transition: width 1s linear, background-color 0.5s ease;
+}
+
+.timer-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.timer-control-btn {
+    border: none;
+    background-color: #e9ecef;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.timer-control-btn:hover {
+    background-color: #dee2e6;
+}
+
+.timer-tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    transform: translateY(-30px);
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+.timer-control-btn:hover .timer-tooltip {
+    opacity: 1;
+}
+
+/* Animation for the timer when in warning/critical state */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Fullscreen timer for Quiz page */
+.fullscreen-timer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    z-index: 1000;
+    display: none;
+    animation: slideDown 0.5s forwards;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.fullscreen-timer.show {
+    display: block;
+}
+
+/* Timer sound notification toggle */
+.sound-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6c757d;
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+}
+
+.sound-toggle:hover {
+    color: #343a40;
+}
+
+/* Countdown animation for last 5 seconds */
+.final-countdown {
+    animation: finalPulse 1s infinite;
+    font-size: 3rem;
+    color: #f44336;
+}
+
+@keyframes finalPulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

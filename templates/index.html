@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - MCQ Quiz App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+        <div class="p-5 mb-4 bg-light rounded-3">
+            <h1 class="display-5 fw-bold">Welcome to MCQ Quiz App</h1>
+            <p class="fs-4">Test your knowledge with timed multiple-choice quizzes!</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                {% if 'username' in session %}
+                <a href="{{ url_for('start_quiz') }}" class="btn btn-primary btn-lg px-4 gap-3">Start Quiz</a>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary btn-lg px-4">Dashboard</a>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg px-4 gap-3">Login</a>
+                <a href="{{ url_for('register') }}" class="btn btn-outline-secondary btn-lg px-4">Register</a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="row g-4 py-5">
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Timed Quizzes</h5>
+                        <p class="card-text">Challenge yourself with timed quizzes to improve your speed and accuracy.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Randomized Questions</h5>
+                        <p class="card-text">Each quiz has randomized questions and options to keep you on your toes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Track Progress</h5>
+                        <p class="card-text">View your quiz history and track your improvement over time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

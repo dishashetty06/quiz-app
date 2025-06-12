@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}Analytics - MCQ Quiz App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Performance Analytics</h2>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mb-4">Back to Dashboard</a>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Average Score</h5>
+                <h1 class="display-4 {{ 'text-success' if avg_score >= 70 else 'text-warning' if avg_score >= 40 else 'text-danger' }}">
+                    {{ avg_score|round(2) }}%
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Best Score</h5>
+                <h1 class="display-4 text-success">{{ max_score|round(2) }}%</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Total Quizzes</h5>
+                <h1 class="display-4">{{ quiz_history|length }}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>Score Progress</h3>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="scoreChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Create Chart.js visualization
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('scoreChart').getContext('2d');
+        
+        // Data from Flask
+        const scores = {{ scores|tojson }};
+        const dates = {{ dates|tojson }};
+        
+        // Create chart
+        const scoreChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Quiz Scores (%)',
+                    data: scores,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                    pointBackgroundColor: 'rgb(75, 192, 192)',
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Score (%)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Quiz Date'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Score: ${context.parsed.y.toFixed(2)}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

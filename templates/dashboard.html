@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - MCQ Quiz App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Welcome, {{ username }}!</h2>
+        <div class="d-flex justify-content-between mb-4">
+            <a href="{{ url_for('start_quiz') }}" class="btn btn-primary">Start New Quiz</a>
+            <a href="{{ url_for('analytics') }}" class="btn btn-info">View Analytics</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>Quiz History</h3>
+            </div>
+            <div class="card-body">
+                {% if quiz_history %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Score</th>
+                                <th>Correct Answers</th>
+                                <th>Total Questions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for quiz in quiz_history %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ quiz.timestamp.split('T')[0] }}</td>
+                                <td>{{ quiz.score|round(2) }}%</td>
+                                <td>{{ quiz.correct_answers }}</td>
+                                <td>{{ quiz.total_questions }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    You haven't taken any quizzes yet. <a href="{{ url_for('start_quiz') }}">Start a quiz now!</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
